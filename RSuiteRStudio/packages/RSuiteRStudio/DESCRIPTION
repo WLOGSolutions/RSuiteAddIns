@@ -1,0 +1,16 @@
+Package: RSuiteRStudio
+Type: Package
+Title: Declares RStudio Add-ins to use RSuite
+Version: 0.1
+Date: 2018-04-20
+Author: WLOG Solutions
+Maintainer: WLOG Solutions <rsuite@wlogsolutions.com>
+Description: Registers RStudio Add-in to use RSuite basic functionalities.
+License: MIT + file LICENSE
+Imports: RSuite,
+  rstudioapi (>= 0.7),
+  shiny, 
+  shinyjs,
+  miniUI,
+  logging
+RoxygenNote: 6.0.1

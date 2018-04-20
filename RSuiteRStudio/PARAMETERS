@@ -1,0 +1,4 @@
+RSuiteVersion: 0.22.231
+Project: RSuiteRStudio
+Repositories: MRAN[2018-03-12], Url[https://wlog-rsuite.s3.amazonaws.com]
+Artifacts:
