@@ -25,8 +25,10 @@ rsuite_project_run_gadget <- function(caption, run_func, ok_caption = "Build") {
     caption = caption,
     ui_config = list(
       extra_js = "$('#project_folder').focus();",
-      options_panel = fillRow(
-        checkboxInput("run_verbose", label = "Verbose logging", value = TRUE),
+      options_panel = shiny::fillRow(
+        shiny::checkboxInput("run_verbose",
+                             label = "Verbose logging",
+                             value = TRUE),
         height = "20px"
       ),
       start_btn_caption = ok_caption,
@@ -40,12 +42,17 @@ rsuite_project_run_gadget <- function(caption, run_func, ok_caption = "Build") {
         success <- TRUE
 
         if (!validate_input(dir.exists(input$project_folder),
-                            "project_folder", output, "project_folder_err", "Folder does not exist")) {
+                            "project_folder", output,
+                            "project_folder_err", "Folder does not exist")) {
           success <- FALSE
         } else {
-          prj <- tryCatch({ RSuite::prj_init(input$project_folder) }, error = function(e) { NULL })
-          success <- validate_input(!is.null(prj),
-                                    "project_folder", output, "project_folder_err", "Failed to detect project at the folder")
+          prj <- tryCatch({
+            RSuite::prj_init(input$project_folder)
+          },
+          error = function(e) NULL)
+          success <- validate_input(!is.null(prj), "project_folder",
+                                    output, "project_folder_err",
+                                    "Failed to detect project at the folder")
         }
 
         if (!success) {

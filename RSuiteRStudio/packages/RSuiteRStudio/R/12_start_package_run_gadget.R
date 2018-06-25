@@ -16,14 +16,21 @@ start_package_run_gadget <- function() {
     caption = "Start package in RSuite project ...",
     ui_config = list(
       extra_js = c("$('#package_name').focus();",
-                   "$('#package_name').parent().addClass('shiny-input-container-inline');"),
+                   paste0("$('#package_name')",
+                          ".parent()",
+                          ".addClass('shiny-input-container-inline');")),
       top_panel = div(
-        textOutput("package_name_err", inline = TRUE),
-        textInput("package_name", "Package Name:", placeholder = "Name of package to create")
+        shiny::textOutput("package_name_err", inline = TRUE),
+        shiny::textInput("package_name", "Package Name:",
+                  placeholder = "Name of package to create")
       ),
-      options_panel = fillRow(
-        checkboxInput("run_verbose", label = "Verbose logging", value = TRUE),
-        checkboxInput("skip_rc", label = "Skip adding to RC", value = FALSE),
+      options_panel = shiny::fillRow(
+        shiny::checkboxInput("run_verbose",
+                             label = "Verbose logging",
+                             value = TRUE),
+        shiny::checkboxInput("skip_rc",
+                             label = "Skip adding to RC",
+                             value = FALSE),
         height = "20px"
       ),
       start_btn_caption = "Start",
@@ -37,12 +44,18 @@ start_package_run_gadget <- function() {
         success <- TRUE
 
         if (!validate_input(dir.exists(input$project_folder),
-                            "project_folder", output, "project_folder_err", "Folder does not exist")) {
+                            "project_folder", output,
+                            "project_folder_err", "Folder does not exist")) {
           success <- FALSE
         } else {
-          prj <- tryCatch({ RSuite::prj_init(input$project_folder) }, error = function(e) { NULL })
+          prj <- tryCatch({
+            RSuite::prj_init(input$project_folder)
+          },
+          error = function(e) NULL)
           success <- validate_input(!is.null(prj),
-                                    "project_folder", output, "project_folder_err", "Failed to detect project at the folder")
+                                    "project_folder", output,
+                                    "project_folder_err",
+                                    "Failed to detect project at the folder")
         }
 
         if (success) {
@@ -50,15 +63,20 @@ start_package_run_gadget <- function() {
         }
 
         if (!validate_input(input$package_name != "",
-                            "package_name", output, "package_name_err", "Provide package name")) {
+                            "package_name", output,
+                            "package_name_err", "Provide package name")) {
           success <- FALSE
         } else if (!validate_input(grepl("^[a-zA-Z0-9]+$", input$package_name),
-                                   "package_name", output, "package_name_err", "Invalid package name. It must consist of characters and/or digits only.")) {
+                                   "package_name", output, "package_name_err",
+                                   paste0("Invalid package name.",
+                                          " It must consist of characters",
+                                          " and/or digits only."))) {
           success <- FALSE
         } else if (success) {
           pkg_path <- file.path(prj$load_params()$pkgs_path, input$package_name)
           if (!validate_input(!dir.exists(pkg_path),
-                              "package_name", output, "package_name_err", "Package exists already.")) {
+                              "package_name", output,
+                              "package_name_err", "Package exists already.")) {
             success <- FALSE
           }
         }
@@ -69,7 +87,9 @@ start_package_run_gadget <- function() {
         return(list(prj = prj))
       },
       run = function(valid_result, input) {
-        RSuite::prj_start_package(name = input$package_name, prj = valid_result$prj, skip_rc = input$skip_rc)
+        RSuite::prj_start_package(name = input$package_name,
+                                  prj = valid_result$prj,
+                                  skip_rc = input$skip_rc)
         invisible()
       }
     )

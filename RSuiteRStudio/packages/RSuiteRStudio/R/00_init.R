@@ -7,5 +7,5 @@
 
 
 .onLoad <- function(...) {
-  addResourcePath('www', system.file('www', package='RSuiteRStudio'))
+  addResourcePath("www", system.file("www", package = "RSuiteRStudio"))
 }

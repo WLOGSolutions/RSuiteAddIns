@@ -53,10 +53,12 @@ start_project_run_gadget <- function() {
         success <- TRUE
 
         prj_path <- input$project_folder
-        if (!validate_input(dir.exists(prj_path), "project_folder", output, "project_folder_err", "Folder does not exist")) {
+        if (!validate_input(dir.exists(prj_path), "project_folder",
+                            output, "project_folder_err", "Folder does not exist")) {
           success <- FALSE
         }
-        if (!validate_input(input$project_name != "", "project_name", output, "project_name_err", "Provide project name")) {
+        if (!validate_input(input$project_name != "", "project_name",
+                            output, "project_name_err", "Provide project name")) {
           success <- FALSE
         }
         if (!success) {

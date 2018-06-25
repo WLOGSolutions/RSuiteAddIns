@@ -74,7 +74,8 @@ inquire_existing_folder <- function(curr_fld, caption) {
   if (.Platform$OS.type == "windows") {
     folder_path <- choose.dir(default = curr_fld, caption = caption)
   } else {
-    folder_path <- selectDirectory(caption = caption, path = curr_fld)
+    folder_path <- rstudioapi::selectDirectory(caption = caption,
+                                               path = curr_fld)
   }
   if (!is.na(folder_path)) {
     set_default_folder(folder_path)
@@ -98,9 +99,17 @@ inquire_existing_folder <- function(curr_fld, caption) {
 #' @keywords internal
 #' @noRd
 #'
-validate_input <- function(condition, input_field_id, output, error_field_id, error_message) {
-  toggleCssClass(input_field_id, "-invalid", !condition)
-  output[[error_field_id]] <- if (!condition) renderText(error_message) else renderText("")
+validate_input <- function(condition, input_field_id,
+                           output, error_field_id, error_message) {
+  shinyjs::toggleCssClass(input_field_id, "-invalid", !condition)
+
+  output[[error_field_id]] <-
+  if (!condition) {
+    shiny::renderText(error_message)
+  } else {
+    shiny::renderText("")
+  }
+
   return(condition)
 }
 
@@ -130,8 +139,8 @@ validate_input <- function(condition, input_field_id, output, error_field_id, er
 #' @noRd
 #'
 run_gadget <- function(caption, ui_config, srv_config) {
-  ui <- miniPage(
-    useShinyjs(),
+  ui <- miniUI::miniPage(
+    shinyjs::useShinyjs(),
     tags$script(HTML(
       paste(c("$(function() {",
               "   $('#project_folder').parent().addClass('shiny-input-container-inline');",
@@ -143,7 +152,8 @@ run_gadget <- function(caption, ui_config, srv_config) {
               "        }",
               "      })",
               "      .on('keyup', function(e) {",
-              "        if (e.which == 27) { Shiny.onInputChange('escape_btn', Date()); }",
+              "        if (e.which == 27) {",
+              "             Shiny.onInputChange('escape_btn', Date()); }",
               "      });",
               "    $('#select_folder_btn').focusin(function() {",
               "       setTimeout(function() { $('#project_folder').focus(); }, 100);",
@@ -152,21 +162,32 @@ run_gadget <- function(caption, ui_config, srv_config) {
               "});"),
             collapse = "\n"))
     ),
-    inlineCSS(list(
+    shinyjs::inlineCSS(list(
       "#project_folder" = "width: calc(100% - 40px);",
       ".form-control.-invalid" = "border-color: red !important",
       ".-error-info" = "color: red; position: absolute; right: 0",
       "#running_pane_holder *" = "z-index: 50",
       "#running_pane_holder" = "display: none",
       "#running_pane_holder.-running" = "display: initial",
-      "#running_pane" = "position: absolute; left: -15px; right: -15px; top: -15px; bottom: -15px; background: lightgray; opacity: 0.95"
+      "#running_pane" = paste0("position: absolute;",
+                               " left: -15px;",
+                               " right: -15px;",
+                               " top: -15px;",
+                               " bottom: -15px;",
+                               " background: lightgray;",
+                               " opacity: 0.95")
     )),
-    miniContentPanel(
+    miniUI::miniContentPanel(
       div(id = "running_pane_holder",
           div(id = "running_pane"),
           div(style = "position: absolute; left: calc(50% - 70px); top: 100px;",
-              img(src='www/spinner.gif', style = "width: 30xp; height: 30px;"),
-              span("Working ...", style = "font-size: 18px; margin-left: 25px; vertical-align: middle;")
+              img(src = "www/spinner.gif",
+                  style = "width: 30xp; height: 30px;"),
+              span("Working ...",
+                   style = paste0("font-size: 18px;",
+                                  " margin-left: 25px;",
+                                  " vertical-align: middle;")
+                   )
           )
       ),
 
@@ -174,20 +195,30 @@ run_gadget <- function(caption, ui_config, srv_config) {
 
       div(id = "select_folder_holder", style = "float: right",
           tags$label(HTML("&nbsp;"), style = "display: block"),
-          actionButton("select_folder_btn", label = NULL, icon = icon("angle-double-right"))),
+          shiny::actionButton("select_folder_btn", label = NULL,
+                       icon = icon("angle-double-right"))),
 
-      textOutput("project_folder_err", inline = TRUE),
-      textInput("project_folder",
-                label = if (is.null(ui_config$prj_fld_label)) "Folder:" else ui_config$prj_fld_label,
+      shiny::textOutput("project_folder_err", inline = TRUE),
+      shiny::textInput("project_folder",
+                label = if (is.null(ui_config$prj_fld_label)) {
+                  "Folder:"
+                  } else {
+                    ui_config$prj_fld_label
+                  },
                 value = get_default_folder(),
-                placeholder = if (is.null(ui_config$prj_fld_placeholder)) "Specify path to create project at" else ui_config$prj_fld_placeholder),
+                placeholder = if (is.null(ui_config$prj_fld_placeholder)) {
+                  "Specify path to create project at"
+                  } else {
+                    ui_config$prj_fld_placeholder
+                  }),
 
 
       ui_config$options_panel,
 
       hr(),
 
-      actionButton("start_btn", label = ui_config$start_btn_caption, style = "width: 100px; float: right", class="btn-primary")
+      shiny::actionButton("start_btn", label = ui_config$start_btn_caption,
+                   style = "width: 100px; float: right", class = "btn-primary")
     )
   )
 
@@ -196,39 +227,46 @@ run_gadget <- function(caption, ui_config, srv_config) {
       srv_config$observe(input, output, session)
     }
 
-    observeEvent(input$select_folder_btn, {
-      folder_path <- inquire_existing_folder(input$project_folder, srv_config$select_folder_caption)
+    shiny::observeEvent(input$select_folder_btn, {
+      folder_path <- inquire_existing_folder(input$project_folder,
+                                             srv_config$select_folder_caption)
       if (!is.na(folder_path)) {
-        updateTextInput(session, "project_folder", value = folder_path)
+        shiny::updateTextInput(session, "project_folder", value = folder_path)
         validate_input(TRUE, "project_folder", output, "project_folder_err", "")
       }
     })
 
-    observeEvent(input$start_btn, {
+    shiny::observeEvent(input$start_btn, {
       valid_result <- srv_config$validate(input, output, server)
       if (is.null(valid_result)) {
         return(invisible())
       }
 
-      addCssClass("running_pane_holder", "-running")
+      shinyjs::addCssClass("running_pane_holder", "-running")
 
       if (!is.null(input$run_verbose) && input$run_verbose) {
         old_level <- logging::getLogger()$getLevel()
-        on.exit({ logging::setLevel(old_level) }, add = TRUE)
+        on.exit({
+          logging::setLevel(old_level)
+        },
+        add = TRUE)
 
-        logging::setLevel('DEBUG')
+        logging::setLevel("DEBUG")
       }
 
       ret_val <- srv_config$run(valid_result, input)
-      stopApp(returnValue = ret_val)
+      shiny::stopApp(returnValue = ret_val)
     })
 
-    observeEvent(input$escape_btn, { stopApp() })
+    shiny::observeEvent(input$escape_btn, {
+      shiny::stopApp()
+    })
   }
 
 
   suppressMessages({
-    runGadget(ui, server, viewer = dialogViewer(caption, height = 200))
-    #runGadget(ui, server, viewer = browserViewer())
+    shiny::runGadget(ui,
+                     server,
+                     viewer = shiny::dialogViewer(caption, height = 200))
   })
 }

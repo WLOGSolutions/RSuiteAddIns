@@ -8,13 +8,33 @@
 #'
 #' RStudio addin which asks user for project parameters and starts the project.
 #'
+#' @details
+#' Starts a project with the specified parameters.
+#'
+#' The following parameters can be specified by the user:
+#' \itemize{
+#'     \item{New project} - specifies whether a new project is being created
+#'     \item{Existing project} - specifies whether the start operation will be made on an existing project
+#'     \item{Project Name} - specifies the name of the started project
+#'     \item{Folder} - path to the directory where the project will be started
+#'     \item{Verbose Logging} - if checked additional messages will be printed during project starting
+#'     \item{Skip adding RC} - if checked adding the started project under revision control will be skipped
+#'     \item{Open started project} - if checked a new instance of RStudio will open the started project
+#' }
+#'
+#' @examples
+#' if (interactive()) {
+#'     rstudio_01_prj_start()
+#' }
+#'
 #' @export
 #'
 rstudio_01_prj_start <- function() {
-  assert(isAvailable(), "No RStudio available")
-  rstudio_ver <- as.character(getVersion())
+  assert(rstudioapi::isAvailable(), "No RStudio available")
+  rstudio_ver <- as.character(rstudioapi::getVersion())
   assert(utils::compareVersion(rstudio_ver, "1.1.287") >= 0,
-         "RStudio version(%s) is too old. RStudio v1.1.287 at least is required.",
+         paste0("RStudio version(%s) is too old.",
+                " RStudio v1.1.287 at least is required."),
          rstudio_ver)
 
   params <- start_project_run_gadget()
@@ -28,20 +48,37 @@ rstudio_01_prj_start <- function() {
   }
 
   if (params$open_prj) {
-    openProject(projs[1], newSession = T)
+    rstudioapi::openProject(projs[1], newSession = T)
   }
 }
 
 #'
 #' RStudio addin which asks user for package parameters and starts it.
 #'
+#' @details
+#' Starts a package in a specific project
+#'
+#' The following parameters can be specified by the user
+#' \itemize{
+#'     \item{Package Name} - specifies the name of the started package
+#'     \item{Project Folder} - specifies the project folder in which the package will be started
+#'     \item{Verbose Logging} - if checked additional messages will be printed during package starting
+#'     \item{Skip adding RC} - if checked adding the started package under revision control will be skipped
+#' }
+#'
+#' @examples
+#' if (interactive()) {
+#'     rstudio_02_prj_start_package()
+#' }
+#'
 #' @export
 #'
 rstudio_02_prj_start_package <- function() {
-  assert(isAvailable(), "No RStudio available")
-  rstudio_ver <- as.character(getVersion())
+  assert(rstudioapi::isAvailable(), "No RStudio available")
+  rstudio_ver <- as.character(rstudioapi::getVersion())
   assert(utils::compareVersion(rstudio_ver, "1.1.287") >= 0,
-         "RStudio version(%s) is too old. RStudio v1.1.287 at least is required.",
+         paste0("RStudio version(%s) is too old.",
+                " RStudio v1.1.287 at least is required."),
          rstudio_ver)
 
   start_package_run_gadget()
@@ -51,20 +88,36 @@ rstudio_02_prj_start_package <- function() {
 #'
 #' RStudio addin which installs project dependencies.
 #'
-#' If no project in context shows dialog to select project directory.
+#' @details
+#'
+#' If there is no project in context a dialog to select the project directory is shown.
+#'
+#' The following parameters can be specified by the user:
+#' \itemize{
+#'     \item{Project Folder} - specifies the project folder in which dependencies will be installed
+#'     \item{Verbose Logging} - if checked additional messages will be printed during package starting
+#' }
+#'
+#' @examples
+#' if (interactive()) {
+#'     rstudio_03_prj_install_deps()
+#' }
 #'
 #' @export
 #'
 rstudio_03_prj_install_deps <- function() {
-  assert(isAvailable(), "No RStudio available")
-  rstudio_ver <- as.character(getVersion())
+  assert(rstudioapi::isAvailable(), "No RStudio available")
+  rstudio_ver <- as.character(rstudioapi::getVersion())
   assert(utils::compareVersion(rstudio_ver, "1.1.287") >= 0,
-         "RStudio version(%s) is too old. RStudio v1.1.287 at least is required.",
+         paste0("RStudio version(%s) is too old.",
+                " RStudio v1.1.287 at least is required."),
          rstudio_ver)
 
   rsuite_project_run_gadget(
     "Instaling project dependencies ...",
-    function(params) { prj_install_deps(prj = params$prj) },
+    function(params) {
+      prj_install_deps(prj = params$prj)
+    },
     ok_caption = "Install")
   invisible()
 }
@@ -72,40 +125,70 @@ rstudio_03_prj_install_deps <- function() {
 #'
 #' RStudio addin which builds the project.
 #'
+#' @details
 #' If no project in context shows dialog to select project directory.
+#'
+#' The following parameters can be specified by the user:
+#' \itemize{
+#'     \item{Project Folder} - specifies the project which will be built
+#'     \item{Verbose Logging} - if checked additional messages will be printed during package starting
+#' }
+#'
+#' @examples
+#' if (interactive()) {
+#'     rstudio_04_prj_build()
+#' }
 #'
 #' @export
 #'
 rstudio_04_prj_build <- function() {
-  assert(isAvailable(), "No RStudio available")
-  rstudio_ver <- as.character(getVersion())
+  assert(rstudioapi::isAvailable(), "No RStudio available")
+  rstudio_ver <- as.character(rstudioapi::getVersion())
   assert(utils::compareVersion(rstudio_ver, "1.1.287") >= 0,
-         "RStudio version(%s) is too old. RStudio v1.1.287 at least is required.",
+         paste0("RStudio version(%s) is too old.",
+                " RStudio v1.1.287 at least is required."),
          rstudio_ver)
 
   rsuite_project_run_gadget(
     "Building project packages ...",
-    function(params) { RSuite::prj_build(prj = params$prj) })
+    function(params) {
+      RSuite::prj_build(prj = params$prj)
+    })
   invisible()
 }
 
 #'
 #' RStudio addin which cleans up project dependencies.
 #'
+#' @details
 #' If no project in context shows dialog to select project directory.
+#'
+#' The following parameters can be specified by the user:
+#' \itemize{
+#'     \item{Project Folder} - specifies the project whose dependencies will be cleaned
+#'     \item{Verbose Logging} - if checked additional messages will be printed during package starting
+#' }
+#'
+#' @examples
+#' if (interactive()) {
+#'     rstudio_05_prj_clean_deps()
+#' }
 #'
 #' @export
 #'
 rstudio_05_prj_clean_deps <- function() {
-  assert(isAvailable(), "No RStudio available")
-  rstudio_ver <- as.character(getVersion())
+  assert(rstudioapi::isAvailable(), "No RStudio available")
+  rstudio_ver <- as.character(rstudioapi::getVersion())
   assert(utils::compareVersion(rstudio_ver, "1.1.287") >= 0,
-         "RStudio version(%s) is too old. RStudio v1.1.287 at least is required.",
+         paste0("RStudio version(%s) is too old.",
+                " RStudio v1.1.287 at least is required."),
          rstudio_ver)
 
   rsuite_project_run_gadget(
     "Cleaning project dependencies ...",
-    function(params) { RSuite::prj_clean_deps(prj = params$prj) },
+    function(params) {
+      RSuite::prj_clean_deps(prj = params$prj)
+    },
     ok_caption = "Clean")
   invisible()
 }
@@ -114,19 +197,34 @@ rstudio_05_prj_clean_deps <- function() {
 #'
 #' RStudio addin which creates project deployment zip.
 #'
+#' @details
 #' If no project in context shows dialog to select project directory.
+#'
+#' The following parameters can be specified by the user:
+#' \itemize{
+#'     \item{Project Folder} - specifies the project that will be zipped
+#'     \item{Verbose Logging} - if checked additional messages will be printed during package starting
+#' }
+#'
+#' @examples
+#' if (interactive()) {
+#'     rstudio_06_prj_zip()
+#' }
 #'
 #' @export
 #'
 rstudio_06_prj_zip <- function() {
-  assert(isAvailable(), "No RStudio available")
-  rstudio_ver <- as.character(getVersion())
+  assert(rstudioapi::isAvailable(), "No RStudio available")
+  rstudio_ver <- as.character(rstudioapi::getVersion())
   assert(utils::compareVersion(rstudio_ver, "1.1.287") >= 0,
-         "RStudio version(%s) is too old. RStudio v1.1.287 at least is required.",
+         paste0("RStudio version(%s) is too old.",
+                " RStudio v1.1.287 at least is required."),
          rstudio_ver)
 
   rsuite_project_run_gadget(
     "Building project deployment zip ...",
-    function(params) { RSuite::prj_zip(prj = params$prj) })
+    function(params) {
+      RSuite::prj_zip(prj = params$prj)
+    })
   invisible()
 }
