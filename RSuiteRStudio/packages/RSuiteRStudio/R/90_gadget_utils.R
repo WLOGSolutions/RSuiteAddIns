@@ -138,7 +138,39 @@ validate_input <- function(condition, input_field_id,
 #' @keywords internal
 #' @noRd
 #'
-run_gadget <- function(caption, ui_config, srv_config) {
+run_gadget <- function(caption, app) {
+  suppressMessages({
+    shiny::runGadget(app,
+                     viewer = shiny::dialogViewer(caption, height = 200))
+  })
+}
+
+
+#'
+#' Creates shiny app according to configuration provided and runs it.
+#'
+#' @param ui_config configuration of gadget ui. Named list with following parameters:
+#' \describe{
+#'   \item{extra_js}{Lines to be inserted in initialization JS script tag (type: character)}
+#'   \item{top_panel}{html block to put before folder inquery. (optional) }
+#'   \item{prj_fld_label}{Label of folder inquery field. (optional; type: character)}
+#'   \item{prj_fld_placeholder}{Placeholder of folder inquery field. (optional; type: character)}
+#'   \item{options_panel}{html block with options.}
+#'   \item{start_btn_caption}{Start button caption. (type: character)}
+#' }
+#' @param srv_config configuration for server function of gadget. Named list with following
+#'   parameters:
+#' \describe{
+#'   \item{observe}{Function building observe section. (optional; function(input, output, server))}
+#'   \item{select_folder_caption}{Caption of select folder dialog. (type: character)}
+#'   \item{validate}{Function to validate input on submit. (function(input, output, server))}
+#'   \item{run}{Function to run if validation on submit succeded. (function(val_result, input))}
+#' }
+#'
+#' @keywords internal
+#' @noRd
+#'
+create_shiny_app <- function(ui_config, srv_config) {
   ui <- miniUI::miniPage(
     shinyjs::useShinyjs(),
     tags$script(HTML(
@@ -263,10 +295,5 @@ run_gadget <- function(caption, ui_config, srv_config) {
     })
   }
 
-
-  suppressMessages({
-    shiny::runGadget(ui,
-                     server,
-                     viewer = shiny::dialogViewer(caption, height = 200))
-  })
+  return(shiny::shinyApp(ui, server))
 }

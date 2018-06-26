@@ -113,12 +113,12 @@ rstudio_03_prj_install_deps <- function() {
                 " RStudio v1.1.287 at least is required."),
          rstudio_ver)
 
+  app <- create_prj_install_deps_app() # from 13_rsuite_project_run_gadget
+
   rsuite_project_run_gadget(
     "Instaling project dependencies ...",
-    function(params) {
-      prj_install_deps(prj = params$prj)
-    },
-    ok_caption = "Install")
+    app)
+
   invisible()
 }
 
@@ -149,11 +149,12 @@ rstudio_04_prj_build <- function() {
                 " RStudio v1.1.287 at least is required."),
          rstudio_ver)
 
+  app <- create_prj_build_app() # from 13_rsuite_project_run_gadget.R
+
   rsuite_project_run_gadget(
     "Building project packages ...",
-    function(params) {
-      RSuite::prj_build(prj = params$prj)
-    })
+    app)
+
   invisible()
 }
 
@@ -184,12 +185,12 @@ rstudio_05_prj_clean_deps <- function() {
                 " RStudio v1.1.287 at least is required."),
          rstudio_ver)
 
+  app <- create_prj_clean_deps_app()
+
   rsuite_project_run_gadget(
     "Cleaning project dependencies ...",
-    function(params) {
-      RSuite::prj_clean_deps(prj = params$prj)
-    },
-    ok_caption = "Clean")
+    app)
+
   invisible()
 }
 
@@ -221,10 +222,11 @@ rstudio_06_prj_zip <- function() {
                 " RStudio v1.1.287 at least is required."),
          rstudio_ver)
 
+  app <- create_prj_zip_app()
+
   rsuite_project_run_gadget(
     "Building project deployment zip ...",
-    function(params) {
-      RSuite::prj_zip(prj = params$prj)
-    })
+    app)
+
   invisible()
 }
