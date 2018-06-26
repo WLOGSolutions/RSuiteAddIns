@@ -64,7 +64,8 @@ create_start_project_app <- function() {
     validate = function(input, output, session) {
       success <- TRUE
 
-      prj_path <- input$project_folder
+      prj_path <- replace_env_markers(input$project_folder)
+
       if (!validate_input(dir.exists(prj_path), "project_folder",
                           output, "project_folder_err", "Folder does not exist")) {
         success <- FALSE

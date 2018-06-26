@@ -113,6 +113,36 @@ validate_input <- function(condition, input_field_id,
   return(condition)
 }
 
+
+#'
+#' Replaces environment markers in given input.
+#'
+#'
+#' @param input input string (type: character(1)
+#'
+#' @return string with replaced input (type: character(1))
+#'
+#' @keywords internal
+#' @noRd
+#'
+replace_env_markers <- function(input) {
+  # find markers
+  regxp <- "\\$[a-zA-W0-9_]+"
+  markers <- unlist(regmatches(input, gregexpr(regxp, input)))
+
+  # remove '$' sign
+  var_names <- gsub("\\$", "", markers)
+  values <- Sys.getenv(var_names)
+
+  markers <- sprintf("\\%s", markers)
+  output <- input
+  for (i in seq_len(length(markers))) {
+    output <- gsub(markers[i], values[i], output)
+  }
+
+  return(output)
+}
+
 #'
 #' Creates gadget according to configuration provided and runs it.
 #'

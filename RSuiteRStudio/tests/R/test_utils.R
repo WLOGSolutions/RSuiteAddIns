@@ -8,7 +8,7 @@
 .test_env <- new.env()
 assign("cleanup", c(), envir = .test_env)
 
-test_that_managed <- function(desc, ...) {
+test_that_shiny_app <- function(appDir, desc, ...) {
   tryCatch({
     # setup logging
     on_test_exit(function() {

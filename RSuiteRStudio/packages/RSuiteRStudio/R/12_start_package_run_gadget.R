@@ -55,14 +55,15 @@ create_start_package_app <- function() {
     select_folder_caption = "Select RSuite project folder",
     validate = function(input, output, session) {
       success <- TRUE
+      project_folder <- replace_env_markers(input$project_folder)
 
-      if (!validate_input(dir.exists(input$project_folder),
+      if (!validate_input(dir.exists(project_folder),
                           "project_folder", output,
                           "project_folder_err", "Folder does not exist")) {
         success <- FALSE
       } else {
         prj <- tryCatch({
-          RSuite::prj_init(input$project_folder)
+          RSuite::prj_init(project_folder)
         },
         error = function(e) NULL)
         success <- validate_input(!is.null(prj),
