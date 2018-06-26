@@ -1,0 +1,18 @@
+{
+  "input": {
+    "is_project_new": "new",
+    "open_prj": false,
+    "project_folder": "$wspace_dir",
+    "project_name": "TestProject",
+    "run_verbose": true,
+    "select_folder_btn": 0,
+    "skip_rc": false,
+    "start_btn": 0
+  },
+  "output": {
+
+  },
+  "export": {
+
+  }
+}

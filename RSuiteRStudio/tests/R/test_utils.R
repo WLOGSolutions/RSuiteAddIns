@@ -10,9 +10,13 @@ assign("cleanup", c(), envir = .test_env)
 
 test_that_shiny_app <- function(appDir, desc, ...) {
   tryCatch({
-    # setup logging
+    Sys.setenv(wspace_dir = get_wspace_dir())
+    Sys.setenv(ghost_dir = get_non_existing_dir())
+
     on_test_exit(function() {
       unlink(get_wspace_dir(), recursive = T, force = T)
+      Sys.unsetenv("wspace_dir")
+      Sys.unsetenv("ghost_dir")
     })
     test_that(desc, ...)
   }, finally = {
@@ -43,4 +47,5 @@ on_test_exit <- function(cup) {
 }
 
 get_wspace_dir <- function() { .get_create_dir("wspace") }
+get_non_existing_dir <- function() { return(file.path(getwd(), "non_existing"))}
 
