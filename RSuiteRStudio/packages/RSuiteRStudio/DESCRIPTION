@@ -13,4 +13,7 @@ Imports: RSuite,
   shinyjs,
   miniUI,
   logging
+Suggests:
+  testthat,
+  shinytest
 RoxygenNote: 6.0.1
