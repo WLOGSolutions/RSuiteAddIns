@@ -5,18 +5,6 @@
 # Project creation wizard.
 #----------------------------------------------------------------------------
 
-#'
-#' Inquires user to provide project creation parameters and creates it on accept.
-#'
-#' @keywords internal
-#' @noRd
-#'
-start_project_run_gadget <- function() {
-  run_gadget(caption = "Starting RSuite project ...",
-             create_start_project_app()
-  )
-}
-
 
 #'
 #' Creates a shiny app object which provides a GUI for starting projects.

@@ -5,27 +5,6 @@
 # Retrieves project in context.
 #----------------------------------------------------------------------------
 
-#'
-#' Asks user to provide project folder.
-#'
-#' @param caption title of displayed window
-#'
-#' @param run_func function to run when all parameters have been provided. Accepts
-#'   single argument which is named list of following structure
-#' \describe{
-#'   \item{prj}{RSuite projects.}
-#'   \item{verbose}{If creation of project should be run with verbose logging. (type: logical)}
-#' }
-#'
-#' @return the result of run_func.
-#'
-#' @keywords internal
-#' @noRd
-#'
-rsuite_project_run_gadget <- function(caption, app) {
-  run_gadget(caption = caption, app = app)
-}
-
 
 #'
 #' Creates a shiny app asking to provide the project folder
@@ -141,21 +120,4 @@ create_prj_clean_deps_app <- function() {
   }
 
   return(create_rsuite_project_app(run_func, "Clean"))
-}
-
-
-#'
-#' Creates a shiny app object which provides a GUI for preparing project deployment zip.
-#'
-#' @return shiny app object for preparing project deloyment zip.
-#'
-#' @keywords internal
-#' @noRd
-#'
-create_prj_zip_app <- function() {
-  run_func <- function(params) {
-    RSuite::prj_zip(prj = params$prj)
-  }
-
-  return(create_rsuite_project_app(run_func, "Build"))
 }

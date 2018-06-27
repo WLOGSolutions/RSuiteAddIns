@@ -6,20 +6,6 @@
 #----------------------------------------------------------------------------
 
 #'
-#' Inquires user to provide package creation parameters and creates it on accept.
-#'
-#' @keywords internal
-#' @noRd
-#'
-start_package_run_gadget <- function() {
-  run_gadget(
-    caption = "Start package in RSuite project ...",
-    create_start_package_app()
-  )
-}
-
-
-#'
 #' Creates a shiny app object which provides a GUI for starting packages.
 #'
 #' @keywords internal
