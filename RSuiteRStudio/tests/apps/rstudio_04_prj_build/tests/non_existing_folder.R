@@ -1,3 +1,8 @@
+#----------------------------------------------------------------------------
+# RSuiteRStudio
+# Copyright (c) 2017, WLOG Solutions
+#----------------------------------------------------------------------------
+
 app <- ShinyDriver$new("../")
 app$snapshotInit("non_existing_folder")
 

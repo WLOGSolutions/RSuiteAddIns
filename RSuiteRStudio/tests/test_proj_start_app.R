@@ -10,7 +10,7 @@ source("R/test_utils.R")
 source("R/project_managment.R")
 app_dir = "apps/rstudio_01_prj_start/"
 
-context("Checking if addin for installing dependencies in RSuite projects works properly")
+context("Checking if addin for creating RSuite projects works properly")
 
 
 test_that_shiny_app(app_dir, "Correct project creation", {
