@@ -130,9 +130,16 @@ replace_env_markers <- function(input) {
   regxp <- "\\$[a-zA-W0-9_]+"
   markers <- unlist(regmatches(input, gregexpr(regxp, input)))
 
+  if (length(markers) == 0) {
+    # no markers to replace
+    return(input)
+  }
+
   # remove '$' sign
   var_names <- gsub("\\$", "", markers)
   values <- Sys.getenv(var_names)
+  values <- normalizePath(values, "/")
+
 
   markers <- sprintf("\\%s", markers)
   output <- input
