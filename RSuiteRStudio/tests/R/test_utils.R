@@ -46,6 +46,7 @@ test_that_shiny_app <- function(app_dir, desc, ...) {
     test_that(desc, ...)
   }, finally = {
     fire_cleanups()
+    logging::removeHandler(handler = "RSuite.tests.file.logger")
   })
 }
 
