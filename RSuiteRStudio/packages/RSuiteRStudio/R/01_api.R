@@ -21,10 +21,9 @@
 #'     \item{Skip adding RC} - if checked adding the started project under revision control will be skipped
 #'     \item{Open started project} - if checked a new instance of RStudio will open the started project
 #' }
-#'
 #' @examples
-#' if (interactive()) {
-#'     rstudio_01_prj_start()
+#' \dontrun{
+#' rstudio_01_prj_start()
 #' }
 #'
 #' @export
@@ -52,6 +51,7 @@ rstudio_01_prj_start <- function() {
   if (params$open_prj) {
     rstudioapi::openProject(projs[1], newSession = T)
   }
+
 }
 
 #'
@@ -69,8 +69,8 @@ rstudio_01_prj_start <- function() {
 #' }
 #'
 #' @examples
-#' if (interactive()) {
-#'     rstudio_02_prj_start_package()
+#' \dontrun{
+#' rstudio_02_prj_start_package()
 #' }
 #'
 #' @export
@@ -83,8 +83,8 @@ rstudio_02_prj_start_package <- function() {
                 " RStudio v1.1.287 at least is required."),
          rstudio_ver)
 
-  run_gadget(caption = "Start RSuite project ...",
-                       create_start_project_app()) # from 90_gadget_utils.R
+  run_gadget(caption = "Start RSuite package...",
+                       create_start_package_app()) # from 90_gadget_utils.R
   invisible()
 }
 
@@ -102,8 +102,8 @@ rstudio_02_prj_start_package <- function() {
 #' }
 #'
 #' @examples
-#' if (interactive()) {
-#'     rstudio_03_prj_install_deps()
+#' \dontrun{
+#' rstudio_03_prj_install_deps()
 #' }
 #'
 #' @export
@@ -138,8 +138,8 @@ rstudio_03_prj_install_deps <- function() {
 #' }
 #'
 #' @examples
-#' if (interactive()) {
-#'     rstudio_04_prj_build()
+#' \dontrun{
+#' rstudio_04_prj_build()
 #' }
 #'
 #' @export
@@ -174,8 +174,8 @@ rstudio_04_prj_build <- function() {
 #' }
 #'
 #' @examples
-#' if (interactive()) {
-#'     rstudio_05_prj_clean_deps()
+#' \dontrun{
+#' rstudio_05_prj_clean_deps()
 #' }
 #'
 #' @export
@@ -211,8 +211,8 @@ rstudio_05_prj_clean_deps <- function() {
 #' }
 #'
 #' @examples
-#' if (interactive()) {
-#'     rstudio_06_prj_zip()
+#' \dontrun{
+#' rstudio_06_prj_zip()
 #' }
 #'
 #' @export
@@ -225,7 +225,7 @@ rstudio_06_prj_zip <- function() {
                 " RStudio v1.1.287 at least is required."),
          rstudio_ver)
 
-  app <- create_prj_zip_app()
+  app <- create_prj_zip_app() # from 16_prj_zip_run_gadget.R
 
   run_gadget(
     "Building project deployment zip ...",
