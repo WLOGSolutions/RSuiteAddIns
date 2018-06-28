@@ -39,7 +39,7 @@ create_start_project_app <- function() {
   srv_config <- list(
     select_folder_caption = "Select folder to start RSuite project in",
     observe = function(input, output = NULL, session = NULL) {
-      observe(function() {
+      observe({
         shinyjs::toggleState("project_name", input$is_project_new == "new")
         if (input$is_project_new == "existing") {
           updateTextInput(session, "project_name", value = basename(input$project_folder))
