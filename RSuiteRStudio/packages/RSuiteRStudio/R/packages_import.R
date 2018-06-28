@@ -7,7 +7,7 @@
 #' @import RSuite
 #' @import rstudioapi
 #' @import shiny
-#' @import shinyjs
+#' @importFrom shinyjs addCssClass inlineCSS toggleCssClass toggleState runcodeUI useShinyjs
 #' @import miniUI
 #' @import logging
 NULL
