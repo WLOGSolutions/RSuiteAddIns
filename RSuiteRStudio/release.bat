@@ -19,3 +19,7 @@ call rsuite repo addproj -s http://wlog-rsuite.s3.amazonaws.com -b F -v
 if ERRORLEVEL 1 goto error
 echo Building/uploading RSuiteRStudio tag %gitver% onto S3 repository ... done
 
+:error
+set zip=
+echo Failed.
+exit /B 1
