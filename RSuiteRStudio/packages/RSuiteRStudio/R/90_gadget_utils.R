@@ -208,6 +208,16 @@ run_gadget <- function(caption, app) {
 #' @noRd
 #'
 create_shiny_app <- function(ui_config, srv_config) {
+  # preprocess ui_config
+  ui_config$prj_fld_label <- ifelse(is.null(ui_config$prj_fld_label),
+                                    "Folder:",
+                                    ui_config$prj_fld_label)
+
+  # preprocess srv_config
+  ui_config$prj_fld_placeholder <- ifelse(is.null(ui_config$prj_fld_placeholder),
+                                          "Specify path to create project at",
+                                          ui_config$prj_fld_placeholder)
+
   ui <- miniUI::miniPage(
     shinyjs::useShinyjs(),
     tags$script(HTML(
@@ -234,60 +244,63 @@ create_shiny_app <- function(ui_config, srv_config) {
     shinyjs::inlineCSS(list(
       "#project_folder" = "width: calc(100% - 40px);",
       ".form-control.-invalid" = "border-color: red !important",
-      ".-error-info" = "color: red; position: absolute; right: 0",
+      ".-error-info" = c("color: red;",
+                         "position: absolute;",
+                         "right: 0"),
       "#running_pane_holder *" = "z-index: 50",
       "#running_pane_holder" = "display: none",
       "#running_pane_holder.-running" = "display: initial",
-      "#running_pane" = paste0("position: absolute;",
-                               " left: -15px;",
-                               " right: -15px;",
-                               " top: -15px;",
-                               " bottom: -15px;",
-                               " background: lightgray;",
-                               " opacity: 0.95")
+      "#running_pane" = c("position: absolute;",
+                          "left: -15px;",
+                          "right: -15px;",
+                          "top: -15px;",
+                          "bottom: -15px;",
+                          "background: lightgray;",
+                          "opacity: 0.95"),
+      "#running_pane_spinner" = c("position: absolute;",
+                                  "left: calc(50% - 70px)",
+                                  "top: 100px"),
+      "#running_pane_spinner img" = c("width: 30px",
+                                      "height: 30px"),
+      "#running_pane_spinner span" = c("font-size: 18px",
+                                       "margin-left: 25px",
+                                       "vertival-align: middle"),
+      "#select_folder_holder" = c("float: right"),
+      "#start_btn" = c("width: 100px",
+                       "float: right")
     )),
     miniUI::miniContentPanel(
       div(id = "running_pane_holder",
           div(id = "running_pane"),
-          div(style = "position: absolute; left: calc(50% - 70px); top: 100px;",
-              img(src = "www/spinner.gif",
-                  style = "width: 30xp; height: 30px;"),
-              span("Working ...",
-                   style = paste0("font-size: 18px;",
-                                  " margin-left: 25px;",
-                                  " vertical-align: middle;")
-                   )
-          )
-      ),
+          div(id = "running_pane_spinner",
+              img(src = "www/spinner.gif"),
+              span("Working ...")
+              )
+          ),
 
       if (is.null(ui_config$top_panel)) div() else ui_config$top_panel,
 
-      div(id = "select_folder_holder", style = "float: right",
-          tags$label(HTML("&nbsp;"), style = "display: block"),
-          shiny::actionButton("select_folder_btn", label = NULL,
-                       icon = icon("angle-double-right"))),
+      div(id = "select_folder_holder",
+          tags$label(HTML("&nbsp;"),
+                     style = "display: block"),
+          shiny::actionButton("select_folder_btn",
+                              label = NULL,
+                              icon = icon("angle-double-right"))),
 
       shiny::textOutput("project_folder_err", inline = TRUE),
       shiny::textInput("project_folder",
-                label = if (is.null(ui_config$prj_fld_label)) {
-                  "Folder:"
-                  } else {
-                    ui_config$prj_fld_label
-                  },
+                label = ui_config$prj_fld_label,
                 value = get_default_folder(),
-                placeholder = if (is.null(ui_config$prj_fld_placeholder)) {
-                  "Specify path to create project at"
-                  } else {
-                    ui_config$prj_fld_placeholder
-                  }),
-
+                placeholder = ui_config$prj_fld_placeholder),
 
       ui_config$options_panel,
 
       hr(),
 
-      shiny::actionButton("start_btn", label = ui_config$start_btn_caption,
-                   style = "width: 100px; float: right", class = "btn-primary")
+      shiny::actionButton("start_btn",
+                          label = ui_config$start_btn_caption,
+                          class = "btn-primary")
+
     )
   )
 
