@@ -22,6 +22,9 @@ create_prj_zip_app <- function() {
                         ".parent()",
                         ".addClass('shiny-input-container-inline');")),
     top_panel = div(
+      shiny::radioButtons("version_detection",
+                          choices = list("Specify Version" = "specify", "Detect version" = "detect"),
+                          selected = "specify", label = NULL, inline = TRUE),
       shiny::textInput("zip_version", "Zip Version:",
                        placeholder = "Zip version to create")
     ),
@@ -39,6 +42,16 @@ create_prj_zip_app <- function() {
 
   srv_config <- list(
     select_folder_caption = "Select RSuite project folder",
+
+    observe = function(input, output = NULL, session = NULL) {
+      observe({
+        shinyjs::toggleState("zip_version", input$version_detection == "specify")
+        if (input$version_detection == "detect") {
+          updateTextInput(session, "zip_version", value = NULL)
+        }
+      })
+    },
+
     validate = function(input, output, session) {
       success <- TRUE
       project_folder <- replace_env_markers(input$project_folder)
@@ -65,8 +78,12 @@ create_prj_zip_app <- function() {
       return(list(prj = prj))
     },
     run = function(valid_result, input) {
-      params <- list(prj = valid_result$prj, verbose = input$run_verbose, zip_ver = input$zip_version)
-      ret_val <- RSuite::prj_zip(prj = valid_result$prj, zip_ver = input$zip_version)
+      zip_ver <- input$zip_version
+      if (nchar(input$zip_version) == 0 && input$version_detection == "detect") {
+        zip_ver <- NULL
+      }
+
+      ret_val <- RSuite::prj_zip(prj = valid_result$prj, zip_ver = zip_ver)
       return(ret_val)
     }
   )
