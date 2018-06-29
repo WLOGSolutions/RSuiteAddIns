@@ -22,7 +22,7 @@
 #'     \item{Open started project} - if checked a new instance of RStudio will open the started project
 #' }
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' rstudio_01_prj_start()
 #' }
 #'
@@ -69,7 +69,7 @@ rstudio_01_prj_start <- function() {
 #' }
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' rstudio_02_prj_start_package()
 #' }
 #'
@@ -102,7 +102,7 @@ rstudio_02_prj_start_package <- function() {
 #' }
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' rstudio_03_prj_install_deps()
 #' }
 #'
@@ -138,7 +138,7 @@ rstudio_03_prj_install_deps <- function() {
 #' }
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' rstudio_04_prj_build()
 #' }
 #'
@@ -174,7 +174,7 @@ rstudio_04_prj_build <- function() {
 #' }
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' rstudio_05_prj_clean_deps()
 #' }
 #'
@@ -211,7 +211,7 @@ rstudio_05_prj_clean_deps <- function() {
 #' }
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' rstudio_06_prj_zip()
 #' }
 #'
