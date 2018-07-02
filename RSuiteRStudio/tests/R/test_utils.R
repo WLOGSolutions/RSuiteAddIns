@@ -13,8 +13,10 @@ test_that_shiny_app <- function(app_dir, desc, ...) {
     # setup environment variables
     old_wspace_dir <- Sys.getenv("wspace_dir")
     old_ghost_dir <- Sys.getenv("ghost_dir")
+    old_temp_dir <- Sys.getenv("temp_dir")
     Sys.setenv(wspace_dir = get_wspace_dir())
     Sys.setenv(ghost_dir = get_non_existing_dir())
+    Sys.setenv(temp_dir = tempdir())
 
     # setup logging
     root_level <- logging::getLogger()$level
@@ -23,7 +25,8 @@ test_that_shiny_app <- function(app_dir, desc, ...) {
     on_test_exit(function() {
       # environment variables cleaning
       Sys.setenv(wspace_dir = old_wspace_dir)
-      Sys.setenv(old_ghost_dir = old_ghost_dir)
+      Sys.setenv(ghost_dir = old_ghost_dir)
+      Sys.setenv(temp_dir = old_temp_dir)
 
       # loggers cleaning
       logging::setLevel(root_level)
