@@ -20,7 +20,8 @@ Imports: RSuite,
   shiny, 
   shinyjs,
   miniUI,
-  logging
+  logging,
+  utils
 Suggests:
   testthat,
   shinytest
