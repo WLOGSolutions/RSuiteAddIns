@@ -65,14 +65,13 @@ set_default_folder <- function(fld) {
 #'
 #' @return existing folder path or NA
 #'
-#' @importFrom utils choose.dir
 #'
 #' @keywords internal
 #' @noRd
 #'
 inquire_existing_folder <- function(curr_fld, caption) {
   if (.Platform$OS.type == "windows") {
-    folder_path <- choose.dir(default = curr_fld, caption = caption)
+    folder_path <- utils::choose.dir(default = curr_fld, caption = caption)
   } else {
     folder_path <- rstudioapi::selectDirectory(caption = caption,
                                                path = curr_fld)
