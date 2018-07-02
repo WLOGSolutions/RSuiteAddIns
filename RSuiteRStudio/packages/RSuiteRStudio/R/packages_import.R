@@ -6,10 +6,11 @@
 
 #' @import RSuite
 #' @import rstudioapi
-#' @import shiny
-#' @importFrom shinyjs addCssClass inlineCSS toggleCssClass toggleState runcodeUI useShinyjs
 #' @import miniUI
 #' @import logging
+#' @import utils
+#' @rawNamespace import(shiny, except = runExample)
+#' @rawNamespace import(shinyjs, except = runExample)
 NULL
 
 
