@@ -1,0 +1,5 @@
+{
+  "output": {
+    "package_name_err": "Package exists already."
+  }
+}

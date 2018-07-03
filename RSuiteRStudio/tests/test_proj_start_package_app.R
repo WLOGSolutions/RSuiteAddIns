@@ -31,6 +31,15 @@ test_that_shiny_app(app_dir, "Correct package creation", {
 })
 
 
+test_that_shiny_app(app_dir, "Existing pkg handling", {
+  prj <- init_test_project()
+  create_test_package("TestPackage", prj = prj)
+
+  expect_pass(testApp(appDir = app_dir, testnames = "existing_pkg",
+              interactive = FALSE, compareImages = FALSE))
+})
+
+
 test_that_shiny_app(app_dir, "Testing if rstudio_02_prj_start_package() error handling works", {
   testnames <- c("no_folder_and_pkg_name",
                  "no_pkg_name",
