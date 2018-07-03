@@ -1,4 +1,9 @@
 News for RSuiteRStudio
 
+CHANGES IN 0.2 (2018-07-02):
+  * Zip version input for Build ZIP menu item
+  * Added GUI response tests (used the shinytest
+  package)
+
 CHANGES IN 0.1 (2018-03-12):
   * Initial version
