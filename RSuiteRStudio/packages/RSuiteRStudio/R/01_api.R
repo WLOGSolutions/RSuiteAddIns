@@ -206,6 +206,9 @@ rstudio_05_prj_clean_deps <- function() {
 #'
 #' The following parameters can be specified by the user:
 #' \itemize{
+#'     \item{Specify Version} - specifies whether the zip version will be enforced
+#'     \item{Detect Version} - specifies whether the zip version will be taken from RC
+#'     \item{Zip Version} - specifies the zip version number. The expected form of the version is DD.DD
 #'     \item{Project Folder} - specifies the project that will be zipped
 #'     \item{Verbose Logging} - if checked additional messages will be printed during package starting
 #' }
