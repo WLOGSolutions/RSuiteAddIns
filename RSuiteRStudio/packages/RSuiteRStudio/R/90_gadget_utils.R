@@ -292,6 +292,8 @@ create_shiny_app <- function(ui_config, srv_config) {
                 value = get_default_folder(),
                 placeholder = ui_config$prj_fld_placeholder),
 
+      if (is.null(ui_config$bottom_panel)) div() else ui_config$bottom_panel,
+
       ui_config$options_panel,
 
       hr(),

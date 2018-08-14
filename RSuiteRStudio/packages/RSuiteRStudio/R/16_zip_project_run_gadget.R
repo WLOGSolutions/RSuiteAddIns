@@ -6,11 +6,7 @@
 #----------------------------------------------------------------------------
 
 #'
-#' Creates a shiny prj_zip app asking to provide the project folder and zip version
-#'
-#' @param ok_caption caption of the 'OK' button (type: character(1))
-#'
-#' @return shiny app object created in accordance with the provided arguments.
+#' Creates a shiny app object which provides a GUI for creating deployment zips.
 #'
 #' @keywords internal
 #' @noRd
@@ -21,12 +17,12 @@ create_prj_zip_app <- function() {
                  paste0("$('#zip_version')",
                         ".parent()",
                         ".addClass('shiny-input-container-inline');")),
-    top_panel = div(
-      shiny::radioButtons("version_detection",
-                          choices = list("Specify Version" = "specify", "Detect version" = "detect"),
-                          selected = "specify", label = NULL, inline = TRUE),
+    bottom_panel = div(
       shiny::textInput("zip_version", "Zip Version:",
-                       placeholder = "Zip version to create")
+                       placeholder = "Zip version to create"),
+      shiny::radioButtons("version_detection",
+                          choices = list("Detect version" = "detect", "Specify Version" = "specify"),
+                          selected = "detect", label = NULL, inline = TRUE)
     ),
     options_panel = shiny::fillRow(
       shiny::checkboxInput("run_verbose",
