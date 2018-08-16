@@ -90,23 +90,6 @@ create_prj_install_deps_app <- function() {
 
 
 #'
-#' Creates a shiny app object which provides a GUI for project building.
-#'
-#' @return shiny app object for project building.
-#'
-#' @keywords internal
-#' @noRd
-#'
-create_prj_build_app <- function() {
-  run_func <- function(params) {
-    RSuite::prj_build(prj = params$prj)
-  }
-
-  return(create_rsuite_project_app(run_func, "Build"))
-}
-
-
-#'
 #' Creates a shiny app object which provides a GUI for cleaning project dependencies.
 #'
 #' @return shiny app object for cleaning project dependencies.

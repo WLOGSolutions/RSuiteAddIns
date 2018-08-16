@@ -152,7 +152,7 @@ rstudio_04_prj_build <- function() {
                 " RStudio v1.1.287 at least is required."),
          rstudio_ver)
 
-  app <- create_prj_build_app() # from 13_rsuite_project_run_gadget.R
+  app <- create_prj_build_app() # from 14_build_project_run_gadget.R
 
   run_gadget(
     "Building project packages ...",
