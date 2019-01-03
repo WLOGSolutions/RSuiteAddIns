@@ -135,6 +135,7 @@ rstudio_03_prj_install_deps <- function() {
 #' \itemize{
 #'     \item{Project Folder} - specifies the project which will be built
 #'     \item{Verbose Logging} - if checked additional messages will be printed during package starting
+#'     \item{Build vignettes} - if checked will build vignettes when building packages
 #' }
 #'
 #' @examples

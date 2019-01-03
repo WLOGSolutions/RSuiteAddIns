@@ -1,3 +1,11 @@
+#'
+#' Creates a shiny app object which provides a GUI for building the project.
+#'
+#' @return shiny app object for building the project.
+#'
+#' @keywords internal
+#' @noRd
+#'
 create_prj_build_app <- function() {
   ui_config <- list(
     extra_js = "$('#project_folder').focus();",
