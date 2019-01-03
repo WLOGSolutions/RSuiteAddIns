@@ -149,6 +149,34 @@ replace_env_markers <- function(input) {
   return(output)
 }
 
+
+#' Sets the default R Suite options if they are not set.
+#'
+#' @keywords internal
+#' @noRd
+#'
+set_missing_options <- function() {
+
+  set_missing_option <- function(option_name, default_value) {
+    if (getOption(option_name) == "") {
+      option_mapping <- list(default_value)
+      names(option_mapping) <- option_name
+
+      options(option_mapping)
+    }
+  }
+
+  options_to_check <- c("rsuite.user_templ_path")
+  options_default_values <- c("~/.rsuite/templates")
+
+  invisible(mapply(
+    set_missing_option,
+    options_to_check,
+    options_default_values
+  ))
+}
+
+
 #'
 #' Creates gadget according to configuration provided and runs it.
 #'
@@ -175,6 +203,7 @@ replace_env_markers <- function(input) {
 #' @noRd
 #'
 run_gadget <- function(caption, app) {
+  set_missing_options()
   suppressMessages({
     shiny::runGadget(app,
                      viewer = shiny::dialogViewer(caption, height = 200))
