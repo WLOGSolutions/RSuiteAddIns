@@ -22,7 +22,8 @@ create_start_project_app <- function() {
                    selected = "new", label = NULL, inline = TRUE),
 
       textOutput("project_name_err", inline = TRUE),
-      textInput("project_name", "Project Name:", placeholder = "Name of project to create")
+      textInput("project_name", "Project Name:", placeholder = "Name of project to create"),
+      selectInput("template_name", "Template Name", choices = NULL, width = "100%")
     ),
     options_panel = fillRow(
       checkboxInput("run_verbose", label = "Verbose logging", value = TRUE),
@@ -48,6 +49,13 @@ create_start_project_app <- function() {
           updateTextInput(session, "project_name", value = "")
         }
       })
+
+      registered_templates <- RSuite::tmpl_list_registered()
+      registered_templates <- registered_templates[registered_templates[, "HasProjectTemplate"],
+                                                   "Name"]
+      updateSelectInput(session,
+                        "template_name", choices = registered_templates,
+                        selected = "builtin")
     },
     validate = function(input, output, session) {
       success <- TRUE
@@ -78,7 +86,10 @@ create_start_project_app <- function() {
       return(list(prj_path = prj_path))
     },
     run = function(valid_result, input) {
-      prj <- RSuite::prj_start(name = input$project_name, path = valid_result$prj_path, skip_rc = input$skip_rc)
+      prj <- RSuite::prj_start(name = input$project_name,
+                               path = valid_result$prj_path,
+                               skip_rc = input$skip_rc,
+                               tmpl = input$template_name)
       return(list(prj_path = prj$path,
                   open_prj = input$open_prj))
     }

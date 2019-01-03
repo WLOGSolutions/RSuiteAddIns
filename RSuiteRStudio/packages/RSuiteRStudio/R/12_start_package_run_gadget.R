@@ -20,7 +20,8 @@ create_start_package_app <- function() {
     top_panel = div(
       shiny::textOutput("package_name_err", inline = TRUE),
       shiny::textInput("package_name", "Package Name:",
-                       placeholder = "Name of package to create")
+                       placeholder = "Name of package to create"),
+      selectInput("template_name", "Template Name", choices = NULL, width = "100%")
     ),
     options_panel = shiny::fillRow(
       shiny::checkboxInput("run_verbose",
@@ -39,6 +40,16 @@ create_start_package_app <- function() {
 
   srv_config <- list(
     select_folder_caption = "Select RSuite project folder",
+
+    observe = function(input, output = NULL, session = NULL) {
+      registered_templates <- RSuite::tmpl_list_registered()
+      registered_templates <- registered_templates[registered_templates[, "HasPackageTemplate"],
+                                                   "Name"]
+      updateSelectInput(session,
+                        "template_name", choices = registered_templates,
+                        selected = "builtin")
+    },
+
     validate = function(input, output, session) {
       success <- TRUE
       project_folder <- replace_env_markers(input$project_folder)
@@ -89,7 +100,8 @@ create_start_package_app <- function() {
     run = function(valid_result, input) {
       RSuite::prj_start_package(name = input$package_name,
                                 prj = valid_result$prj,
-                                skip_rc = input$skip_rc)
+                                skip_rc = input$skip_rc,
+                                tmpl = input$template_name)
       invisible()
     }
   )
