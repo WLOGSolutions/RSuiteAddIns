@@ -1,7 +1,7 @@
 Package: RSuiteRStudio
 Type: Package
 Title: Declares RStudio Add-ins to use RSuite
-Version: 0.1
+Version: 0.3
 Author: WLOG Solutions
 Maintainer: Walerian Sokolowski <rsuite@wlogsolutions.com>
 Authors@R: c(
@@ -25,4 +25,4 @@ Imports: RSuite,
 Suggests:
   testthat,
   shinytest
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.1

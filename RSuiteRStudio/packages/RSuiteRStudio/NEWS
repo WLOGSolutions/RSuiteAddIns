@@ -1,5 +1,9 @@
 News for RSuiteRStudio
 
+CHANGES IN 0.3 (2019-01-07):
+  * Added template selection to project and package
+  creation menus
+
 CHANGES IN 0.2 (2018-07-02):
   * Zip version input for Build ZIP menu item
   * Added GUI response tests (used the shinytest
