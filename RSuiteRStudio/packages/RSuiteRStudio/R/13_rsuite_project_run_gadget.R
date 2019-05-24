@@ -82,6 +82,7 @@ create_rsuite_project_app <- function(run_func, ok_caption) {
 #'
 create_prj_install_deps_app <- function() {
   run_func <- function(params) {
+    rstudioapi::sendToConsole("") # make console visible
     RSuite::prj_install_deps(prj = params$prj)
   }
 
@@ -99,6 +100,7 @@ create_prj_install_deps_app <- function() {
 #'
 create_prj_clean_deps_app <- function() {
   run_func <- function(params) {
+    rstudioapi::sendToConsole("") # make console visible
     RSuite::prj_clean_deps(prj = params$prj)
   }
 

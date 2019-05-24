@@ -198,15 +198,16 @@ set_missing_options <- function() {
 #'   \item{validate}{Function to validate input on submit. (function(input, output, server))}
 #'   \item{run}{Function to run if validation on submit succeded. (function(val_result, input))}
 #' }
+#' @param height height of gadget window.
 #'
 #' @keywords internal
 #' @noRd
 #'
-run_gadget <- function(caption, app) {
+run_gadget <- function(caption, app, height = 200) {
   set_missing_options()
   suppressMessages({
     shiny::runGadget(app,
-                     viewer = shiny::dialogViewer(caption, height = 200))
+                     viewer = shiny::dialogViewer(caption, height = height))
   })
 }
 

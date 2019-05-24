@@ -52,6 +52,7 @@ create_prj_build_app <- function() {
       return(list(prj = prj))
     },
     run = function(valid_result, input) {
+      rstudioapi::sendToConsole("") # make console visible
       ret_val <- RSuite::prj_build(prj = valid_result$prj, vignettes = input$build_vignettes)
       return(ret_val)
     }

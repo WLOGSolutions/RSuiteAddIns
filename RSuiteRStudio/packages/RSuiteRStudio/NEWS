@@ -1,5 +1,9 @@
 News for RSuiteRStudio
 
+CHANGES IN 0.4 (2019-05-24):
+  * Fixed gadget window sizing for project and package creation
+  * R console is shown then RSuite process is started
+
 CHANGES IN 0.3 (2019-01-07):
   * Added template selection to project and package
   creation menus

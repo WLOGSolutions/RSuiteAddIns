@@ -98,6 +98,7 @@ create_start_package_app <- function() {
       return(list(prj = prj))
     },
     run = function(valid_result, input) {
+      rstudioapi::sendToConsole("") # make console visible
       RSuite::prj_start_package(name = input$package_name,
                                 prj = valid_result$prj,
                                 skip_rc = input$skip_rc,

@@ -79,6 +79,7 @@ create_prj_zip_app <- function() {
         zip_ver <- NULL
       }
 
+      rstudioapi::sendToConsole("") # make console visible
       ret_val <- RSuite::prj_zip(prj = valid_result$prj, zip_ver = zip_ver)
       return(ret_val)
     }

@@ -37,7 +37,8 @@ rstudio_01_prj_start <- function() {
          rstudio_ver)
 
   params <- run_gadget(caption = "Start RSuite project ...",
-                       create_start_project_app()) # from 90_gadget_utils.R
+                       create_start_project_app(),
+                       height = 380) # from 90_gadget_utils.R
 
   if (is.null(params)) {
     return(invisible())
@@ -84,7 +85,8 @@ rstudio_02_prj_start_package <- function() {
          rstudio_ver)
 
   run_gadget(caption = "Start RSuite package...",
-                       create_start_package_app()) # from 90_gadget_utils.R
+             create_start_package_app(),
+             height = 350) # from 90_gadget_utils.R
   invisible()
 }
 
@@ -233,7 +235,8 @@ rstudio_06_prj_zip <- function() {
 
   run_gadget(
     "Building project deployment zip ...",
-    app) # from 90_gadget_utils.R
+    app,
+    height = 250) # from 90_gadget_utils.R
 
   invisible()
 }

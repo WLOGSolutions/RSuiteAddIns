@@ -86,6 +86,7 @@ create_start_project_app <- function() {
       return(list(prj_path = prj_path))
     },
     run = function(valid_result, input) {
+      rstudioapi::sendToConsole("") # make console visible
       prj <- RSuite::prj_start(name = input$project_name,
                                path = valid_result$prj_path,
                                skip_rc = input$skip_rc,

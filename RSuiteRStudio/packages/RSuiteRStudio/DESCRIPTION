@@ -1,7 +1,7 @@
 Package: RSuiteRStudio
 Type: Package
 Title: Declares RStudio Add-ins to use RSuite
-Version: 0.3
+Version: 0.4
 Author: WLOG Solutions
 Maintainer: Walerian Sokolowski <rsuite@wlogsolutions.com>
 Authors@R: c(
